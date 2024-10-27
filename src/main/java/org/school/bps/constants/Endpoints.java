@@ -11,6 +11,7 @@ public class Endpoints {
     public final static String UPDATE_STUDENT = "/update";
     public final static String DELETE_STUDENT_BY_ID = "/{stuId}";
     public final static String FILTER_BY_CLASS = "/filter-by-class/{className}";
+    public static final String MARK_ATTENDANCE = "/attendance";
     
     //Teacher
     public final static String TEACHER = "/teacher";
@@ -35,5 +36,5 @@ public class Endpoints {
     public final static String INFO_GREETING = "/";
     public final static String FETCH_INFO = "/fetch";
     public final static String UPDATE_INFO = "/update";
-    
+   
 }

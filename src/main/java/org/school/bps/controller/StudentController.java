@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.dto.StudentDTO;
+import org.school.bps.service.StudentAttendanceService;
 import org.school.bps.service.StudentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 public class StudentController {
     
     private final StudentService studentService;
+    private final StudentAttendanceService studentAttendanceService;
     
     @GetMapping(Endpoints.STUDENT_GREETING)
     public String greetingPage() {
@@ -87,5 +90,16 @@ public class StudentController {
         );
     }
     
+    @PostMapping(Endpoints.MARK_ATTENDANCE)
+    public CustomResponse<String> markAttendance(
+            @RequestBody List<String> studentIds
+    ) {
+        studentAttendanceService.markAttendanceForStudents(studentIds);
+        return new CustomResponse<>(
+                HttpStatus.OK,
+                "Attendance updated successfully.",
+                "UPDATED!"
+        );
+    }
     
 }
