@@ -24,6 +24,7 @@ public class Student {
     private String className;
     private int rollNumber;
     private int presentDays;
+    private int totalDays;
     private BigInteger phoneNumber;
 
     @Enumerated(EnumType.STRING)
@@ -39,6 +40,7 @@ public class Student {
                 .className(className)
                 .rollNumber(rollNumber)
                 .presentDays(presentDays)
+                .totalDays(totalDays)
                 .phoneNumber(phoneNumber)
                 .build();
     }

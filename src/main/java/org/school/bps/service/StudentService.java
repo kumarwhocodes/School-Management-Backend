@@ -2,6 +2,7 @@ package org.school.bps.service;
 
 import lombok.RequiredArgsConstructor;
 import org.school.bps.dto.StudentDTO;
+import org.school.bps.entity.Info;
 import org.school.bps.entity.Student;
 import org.school.bps.exception.StudentAlreadyExistsException;
 import org.school.bps.exception.StudentNotFoundException;
@@ -70,6 +71,4 @@ public class StudentService {
                 .map(Student::toStudentDTO)
                 .toList();
     }
-    
-    
 }

@@ -6,6 +6,8 @@ import org.school.bps.dto.InfoDTO;
 import org.school.bps.entity.Info;
 import org.school.bps.exception.InfoNotFoundException;
 import org.school.bps.repository.InfoRepository;
+import org.school.bps.repository.StudentRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,59 +15,55 @@ import org.springframework.stereotype.Service;
 public class InfoService {
     
     private final InfoRepository infoRepo;
+    private final StudentRepository studentRepo;
     
     @PostConstruct
     public void initializeSingleton() {
         if (infoRepo.count() == 0) {
-            infoRepo.save(new Info());  // Initializes singleton instance if not present
+            infoRepo.save(new Info());
         }
     }
     
     public InfoDTO fetchInfo() {
-        Info info = infoRepo.findAll().getFirst(); // Always fetches the single record
+        Info info = infoRepo.findAll().stream().findFirst()
+                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
         return info.toInfoDTO();
     }
     
     public InfoDTO updateInfo(InfoDTO infoDTO) {
-        Info info = infoRepo.findAll().getFirst();
+        Info info = infoRepo.findAll().stream().findFirst()
+                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
+        
         info.setSchoolName(infoDTO.getSchoolName());
         info.setSchoolDetails(infoDTO.getSchoolDetails());
         info.setContactNumbers(infoDTO.getContactNumbers());
         info.setSocialMediaLinks(infoDTO.getSocialMediaLinks());
         info.setPhotoUrls(infoDTO.getPhotoUrls());
+        info.setTotalRunningDays(infoDTO.getTotalRunningDays());
+        
         infoRepo.save(info);  // Save the updated info
         return info.toInfoDTO();
     }
     
-//    public InfoDTO createInfo(InfoDTO infoDTO) {
-//        Info info = infoDTO.toInfo();
-//        return infoRepo.save(info).toInfoDTO();
-//    }
-//
-//    public InfoDTO fetchInfo() {
-//        return infoRepo.findTopByOrderByIdDesc()
-//                .map(Info::toInfoDTO)
-//                .orElseThrow(() -> new InfoNotFoundException("No Info available."));
-//    }
-//
-//
-//    public InfoDTO updateInfo(InfoDTO infoDTO) {
-//        Info existingInfo = infoRepo.findById(infoDTO.getId())
-//                .orElseThrow(() -> new InfoNotFoundException("Info with ID " + infoDTO.getId() + " not found."));
-//
-//        existingInfo.setSchoolName(infoDTO.getSchoolName());
-//        existingInfo.setSchoolDetails(infoDTO.getSchoolDetails());
-//        existingInfo.setContactNumbers(infoDTO.getContactNumbers());
-//        existingInfo.setSocialMediaLinks(infoDTO.getSocialMediaLinks());
-//        existingInfo.setPhotoUrls(infoDTO.getPhotoUrls());
-//
-//        return infoRepo.save(existingInfo).toInfoDTO();
-//    }
-//
-//    public void deleteInfo(int id) {
-//        if (!infoRepo.existsById(id)) {
-//            throw new InfoNotFoundException("Info with ID " + id + " not found.");
-//        }
-//        infoRepo.deleteById(id);
-//    }
+    public void modifyRunningDays(int runningDays) {
+        Info info = infoRepo.findAll().stream().findFirst()
+                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
+        
+        info.setTotalRunningDays(runningDays);
+        infoRepo.save(info);  // Save the updated running days
+    }
+    
+    @Scheduled(cron = "0 * * * * ?")
+    public void updateRunningDays() {
+        Info info = infoRepo.findAll().stream().findFirst()
+                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
+        int latestTotalRunningDays = info.getTotalRunningDays();
+        
+        studentRepo.findAll().forEach(student -> {
+            student.setTotalDays(latestTotalRunningDays);
+            studentRepo.save(student);
+        });
+        
+        System.out.println("Updated total running days for all students.");
+    }
 }

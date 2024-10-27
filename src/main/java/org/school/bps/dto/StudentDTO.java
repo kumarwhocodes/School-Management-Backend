@@ -19,6 +19,7 @@ public class StudentDTO {
     private String className;
     private int rollNumber;
     private int presentDays;
+    private int totalDays;
     private BigInteger phoneNumber;
 
     public Student toStudent() {
@@ -31,6 +32,7 @@ public class StudentDTO {
                 .className(className)
                 .rollNumber(rollNumber)
                 .presentDays(presentDays)
+                .totalDays(totalDays)
                 .phoneNumber(phoneNumber)
                 .build();
     }

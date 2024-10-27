@@ -31,6 +31,7 @@ public class Info {
     private List<String> socialMediaLinks;
     @ElementCollection
     private List<String> photoUrls;
+    private int totalRunningDays;
     
     public InfoDTO toInfoDTO() {
         return InfoDTO
@@ -40,6 +41,7 @@ public class Info {
                 .photoUrls(photoUrls)
                 .contactNumbers(contactNumbers)
                 .socialMediaLinks(socialMediaLinks)
+                .totalRunningDays(totalRunningDays)
                 .build();
     }
     

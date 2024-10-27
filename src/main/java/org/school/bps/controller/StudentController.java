@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.dto.StudentDTO;
+import org.school.bps.service.InfoService;
 import org.school.bps.service.StudentAttendanceService;
 import org.school.bps.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class StudentController {
     
     private final StudentService studentService;
     private final StudentAttendanceService studentAttendanceService;
+    private final InfoService infoService;
     
     @GetMapping(Endpoints.STUDENT_GREETING)
     public String greetingPage() {
@@ -98,6 +100,18 @@ public class StudentController {
         return new CustomResponse<>(
                 HttpStatus.OK,
                 "Attendance updated successfully.",
+                "UPDATED!"
+        );
+    }
+    
+    @PutMapping(Endpoints.MODIFY_RUNNING_DAYS)
+    public CustomResponse<String> modifyRunningDays(
+            @RequestBody int runningDays
+    ){
+        infoService.modifyRunningDays(runningDays);
+        return new CustomResponse<>(
+                HttpStatus.OK,
+                "Running days updated successfully.",
                 "UPDATED!"
         );
     }

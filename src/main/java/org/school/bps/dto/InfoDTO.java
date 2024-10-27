@@ -26,6 +26,7 @@ public class InfoDTO {
     private List<BigInteger> contactNumbers;
     private List<String> socialMediaLinks;
     private List<String> photoUrls;
+    private int totalRunningDays;
     
     public Info toInfo(){
         return Info
@@ -35,6 +36,7 @@ public class InfoDTO {
                 .photoUrls(photoUrls)
                 .contactNumbers(contactNumbers)
                 .socialMediaLinks(socialMediaLinks)
+                .totalRunningDays(totalRunningDays)
                 .build();
     }
 }
