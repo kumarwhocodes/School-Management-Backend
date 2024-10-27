@@ -23,7 +23,7 @@ public class Student {
     private String email;
     private String className;
     private int rollNumber;
-    private double attendancePercentage;
+    private int presentDays;
     private BigInteger phoneNumber;
 
     @Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ public class Student {
                 .email(email)
                 .className(className)
                 .rollNumber(rollNumber)
-                .attendancePercentage(attendancePercentage)
+                .presentDays(presentDays)
                 .phoneNumber(phoneNumber)
                 .build();
     }
