@@ -1,6 +1,7 @@
 package org.school.bps.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.AnnouncementDTO;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.service.AnnouncementService;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/announcement")
+@RequestMapping(Endpoints.ANNOUNCEMENT)
 @RequiredArgsConstructor
 public class AnnouncementController {
     
     private final AnnouncementService announcementService;
     
-    @GetMapping("/")
+    @GetMapping(Endpoints.ANNOUNCEMENT_GREETING)
     public String announcementGreeting() {
         return "This is announcement endpoint.";
     }
     
-    @GetMapping("/fetch-all")
+    @GetMapping(Endpoints.FETCH_ALL_ANNOUNCEMENTS)
     public CustomResponse<List<AnnouncementDTO>> fetchAllAnnouncements() {
         return new CustomResponse<>(
                 HttpStatus.OK,
@@ -30,7 +31,7 @@ public class AnnouncementController {
         );
     }
     
-    @PostMapping("/create")
+    @PostMapping(Endpoints.CREATE_ANNOUNCEMENT)
     public CustomResponse<AnnouncementDTO> createAnnouncement(
             @RequestBody AnnouncementDTO announcement
     ) {
@@ -41,7 +42,7 @@ public class AnnouncementController {
         );
     }
     
-    @PutMapping("/update")
+    @PutMapping(Endpoints.UPDATE_ANNOUNCEMENT)
     public CustomResponse<AnnouncementDTO> updateAnnouncement(
             @RequestBody AnnouncementDTO announcement
     ) {
@@ -52,7 +53,7 @@ public class AnnouncementController {
         );
     }
     
-    @GetMapping("/{id}")
+    @GetMapping(Endpoints.FETCH_ANNOUNCEMENT_BY_ID)
     public CustomResponse<AnnouncementDTO> fetchAnnouncementById(
             @PathVariable int id
     ) {
@@ -63,7 +64,7 @@ public class AnnouncementController {
         );
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping(Endpoints.DELETE_ANNOUNCEMENT_BY_ID)
     public CustomResponse<String> deleteAnnouncementById(
             @PathVariable int id
     ) {

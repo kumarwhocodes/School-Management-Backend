@@ -1,6 +1,7 @@
 package org.school.bps.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.dto.StudentDTO;
 import org.school.bps.service.StudentService;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping(Endpoints.STUDENT)
 @RequiredArgsConstructor
 public class StudentController {
     
     private final StudentService studentService;
     
-    @GetMapping("/")
+    @GetMapping(Endpoints.STUDENT_GREETING)
     public String greetingPage() {
         return "This is Student's page.";
     }
     
-    @GetMapping("/fetch-all")
+    @GetMapping(Endpoints.FETCH_ALL_STUDENTS)
     public CustomResponse<List<StudentDTO>> fetchAllStudents() {
         return new CustomResponse<>(
                 HttpStatus.OK,
@@ -30,7 +31,7 @@ public class StudentController {
         );
     }
     
-    @PostMapping("/create")
+    @PostMapping(Endpoints.CREATE_STUDENT)
     public CustomResponse<StudentDTO> createStudent(
             @RequestBody StudentDTO student
     ) {
@@ -41,10 +42,10 @@ public class StudentController {
         );
     }
     
-    @PutMapping("/update")
+    @PutMapping(Endpoints.UPDATE_STUDENT)
     public CustomResponse<StudentDTO> updateStudent(
             @RequestBody StudentDTO student
-    ){
+    ) {
         return new CustomResponse<>(
                 HttpStatus.OK,
                 "Student updated successfully.",
@@ -52,7 +53,7 @@ public class StudentController {
         );
     }
     
-    @GetMapping("/{stuId}")
+    @GetMapping(Endpoints.FETCH_STUDENT_BY_ID)
     public CustomResponse<StudentDTO> fetchStudentByStuId(
             @PathVariable String stuId
     ) {
@@ -63,7 +64,7 @@ public class StudentController {
         );
     }
     
-    @DeleteMapping("/{stuId}")
+    @DeleteMapping(Endpoints.DELETE_STUDENT_BY_ID)
     public CustomResponse<String> deleteStudentByStuId(
             @PathVariable String stuId
     ) {
@@ -75,7 +76,7 @@ public class StudentController {
         );
     }
     
-    @GetMapping("/filter-by-class/{className}")
+    @GetMapping(Endpoints.FILTER_BY_CLASS)
     public CustomResponse<List<StudentDTO>> fetchStudentsByClass(
             @PathVariable String className
     ) {

@@ -20,8 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InfoDTO {
-
-    private int id;
+    
     private String schoolName;
     private String schoolDetails;
     private List<BigInteger> contactNumbers;
@@ -31,7 +30,6 @@ public class InfoDTO {
     public Info toInfo(){
         return Info
                 .builder()
-                .id(id)
                 .schoolName(schoolName)
                 .schoolDetails(schoolDetails)
                 .photoUrls(photoUrls)

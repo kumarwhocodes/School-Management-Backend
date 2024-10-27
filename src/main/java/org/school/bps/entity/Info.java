@@ -1,6 +1,9 @@
 package org.school.bps.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +22,7 @@ import java.util.List;
 public class Info {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = 1;
     private String schoolName;
     private String schoolDetails;
     @ElementCollection
@@ -30,10 +32,9 @@ public class Info {
     @ElementCollection
     private List<String> photoUrls;
     
-    public InfoDTO toInfoDTO(){
+    public InfoDTO toInfoDTO() {
         return InfoDTO
                 .builder()
-                .id(id)
                 .schoolName(schoolName)
                 .schoolDetails(schoolDetails)
                 .photoUrls(photoUrls)

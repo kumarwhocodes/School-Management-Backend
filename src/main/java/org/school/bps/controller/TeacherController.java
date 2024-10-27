@@ -1,6 +1,7 @@
 package org.school.bps.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.dto.TeacherDTO;
 import org.school.bps.service.TeacherService;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping(Endpoints.TEACHER)
 @RequiredArgsConstructor
 public class TeacherController {
     
     private final TeacherService teacherService;
     
-    @GetMapping("/")
+    @GetMapping(Endpoints.TEACHER_GREETING)
     public String greetingPage() {
         return "This is Teacher's page.";
     }
     
-    @GetMapping("/fetch-all")
+    @GetMapping(Endpoints.FETCH_ALL_TEACHERS)
     public CustomResponse<List<TeacherDTO>> fetchAllTeachers() {
         return new CustomResponse<>(
                 HttpStatus.OK,
@@ -30,7 +31,7 @@ public class TeacherController {
         );
     }
     
-    @PostMapping("/create")
+    @PostMapping(Endpoints.CREATE_TEACHER)
     public CustomResponse<TeacherDTO> createTeacher(
             @RequestBody TeacherDTO teacher
     ) {
@@ -41,7 +42,7 @@ public class TeacherController {
         );
     }
     
-    @PutMapping("/update")
+    @PutMapping(Endpoints.UPDATE_TEACHER)
     public CustomResponse<TeacherDTO> updateTeacher(
             @RequestBody TeacherDTO teacher
     ) {
@@ -52,7 +53,7 @@ public class TeacherController {
         );
     }
     
-    @GetMapping("/{tId}")
+    @GetMapping(Endpoints.FETCH_TEACHER_BY_ID)
     public CustomResponse<TeacherDTO> fetchTeacherByTId(
             @PathVariable String tId
     ) {
@@ -63,7 +64,7 @@ public class TeacherController {
         );
     }
     
-    @DeleteMapping("/{tId}")
+    @DeleteMapping(Endpoints.DELETE_TEACHER_BY_ID)
     public CustomResponse<String> deleteTeacherByTId(
             @PathVariable String tId
     ) {
