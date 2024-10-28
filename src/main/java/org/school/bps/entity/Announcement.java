@@ -28,6 +28,8 @@ public class Announcement {
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDate expirationDate;
+//    @Column(name = "isHoliday", nullable = false)
+    private boolean isHoliday;
     
     public AnnouncementDTO toAnnouncementDTO() {
         return AnnouncementDTO
@@ -40,6 +42,7 @@ public class Announcement {
                 .startTime(startTime)
                 .endTime(endTime)
                 .expirationDate(expirationDate)
+                .isHoliday(isHoliday)
                 .build();
     }
     

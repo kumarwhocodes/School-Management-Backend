@@ -11,8 +11,7 @@ public class Endpoints {
     public final static String UPDATE_STUDENT = "/update";
     public final static String DELETE_STUDENT_BY_ID = "/{stuId}";
     public final static String FILTER_BY_CLASS = "/filter-by-class/{className}";
-    public static final String MARK_ATTENDANCE = "/attendance";
-    public static final String MODIFY_RUNNING_DAYS = "/modify-running-days";
+    public static final String MARK_STUDENT_ATTENDANCE = "/attendance";
     
     //Teacher
     public final static String TEACHER = "/teacher";
@@ -21,6 +20,7 @@ public class Endpoints {
     public final static String FETCH_TEACHER_BY_ID = "/{tId}";
     public final static String CREATE_TEACHER = "/create";
     public final static String UPDATE_TEACHER = "/update";
+    public static final String MARK_TEACHER_ATTENDANCE = "/attendance";
     public final static String DELETE_TEACHER_BY_ID = "/{tId}";
     
     //Announcement

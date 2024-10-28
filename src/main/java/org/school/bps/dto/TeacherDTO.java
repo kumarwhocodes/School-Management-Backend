@@ -1,7 +1,6 @@
 package org.school.bps.dto;
 
 import lombok.*;
-import org.school.bps.entity.Student;
 import org.school.bps.entity.Teacher;
 
 import java.math.BigInteger;
@@ -18,9 +17,11 @@ public class TeacherDTO {
     private String password;
     private String email;
     private String subject;
-    private double attendancePercentage;
+    private int presentDays;
+    private int totalDays;
+    private int salary;
     private BigInteger phoneNumber;
-
+    
     public Teacher toTeacher() {
         return Teacher
                 .builder()
@@ -29,7 +30,9 @@ public class TeacherDTO {
                 .password(password)
                 .email(email)
                 .subject(subject)
-                .attendancePercentage(attendancePercentage)
+                .presentDays(presentDays)
+                .totalDays(totalDays)
+                .salary(salary)
                 .phoneNumber(phoneNumber)
                 .build();
     }

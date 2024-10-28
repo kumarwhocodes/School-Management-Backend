@@ -28,7 +28,7 @@ public class AnnouncementCleanupService {
             archivedAnnouncement.setMessage(announcement.getMessage());
             archivedAnnouncement.setExpirationDate(announcement.getExpirationDate());
             archivedAnnouncementRepository.save(archivedAnnouncement);
-            announcementService.deleteAnnouncementById(announcement.getId());
+            announcementService.archiveAnnouncementById(announcement.getId());
         });
     }
 }

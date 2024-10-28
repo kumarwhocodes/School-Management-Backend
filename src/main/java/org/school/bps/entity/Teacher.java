@@ -23,7 +23,9 @@ public class Teacher {
     private String password;
     private String email;
     private String subject;
-    private double attendancePercentage;
+    private int presentDays;
+    private int totalDays;
+    private int salary;
     private BigInteger phoneNumber;
     
     @Enumerated(EnumType.STRING)
@@ -37,7 +39,9 @@ public class Teacher {
                 .password(password)
                 .email(email)
                 .subject(subject)
-                .attendancePercentage(attendancePercentage)
+                .presentDays(presentDays)
+                .totalDays(totalDays)
+                .salary(salary)
                 .phoneNumber(phoneNumber)
                 .build();
     }

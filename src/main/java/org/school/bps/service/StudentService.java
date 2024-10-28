@@ -2,11 +2,10 @@ package org.school.bps.service;
 
 import lombok.RequiredArgsConstructor;
 import org.school.bps.dto.StudentDTO;
-import org.school.bps.entity.Info;
 import org.school.bps.entity.Student;
-import org.school.bps.exception.StudentAlreadyExistsException;
 import org.school.bps.exception.StudentNotFoundException;
 import org.school.bps.repository.StudentRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +16,25 @@ public class StudentService {
     
     private final StudentRepository studentRepo;
     
-    public StudentDTO createStudent(StudentDTO student) {
-        //TODO: same username ke saath doosra user create hoja rha hai
-        if (studentRepo.existsById(student.getStuId()))
-            throw new StudentAlreadyExistsException(student.getStuId());
-        else {
-            return studentRepo
-                    .save(student.toStudent())
-                    .toStudentDTO();
+    public StudentDTO createStudent(StudentDTO studentDTO) {
+        // Validate incoming DTO
+        if (studentDTO.getStuId() == null || studentDTO.getStuName() == null) {
+            throw new IllegalArgumentException("Student ID and name cannot be null");
+        }
+        
+        // Convert DTO to Entity
+        Student student = studentDTO.toStudent();
+        
+        // Optionally set default values (e.g., totalDays) if not provided
+        student.setTotalDays(0); // Ensure default value if not set
+        
+        try {
+            // Save student entity
+            Student savedStudent = studentRepo.save(student);
+            return savedStudent.toStudentDTO();
+        } catch (DataIntegrityViolationException e) {
+            // Handle exceptions related to database integrity (e.g., unique constraint violations)
+            throw new RuntimeException("Error saving student: " + e.getMessage());
         }
     }
     

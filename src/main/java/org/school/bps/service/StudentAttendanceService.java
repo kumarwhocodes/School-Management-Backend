@@ -16,9 +16,15 @@ public class StudentAttendanceService {
     
     private final StudentAttendanceRepository studentAttendanceRepo;
     private final StudentRepository studentRepo;
+    private final AcademicCalendarService academicCalendarService;
     
     public void markAttendanceForStudents(List<String> studentIds) {
         LocalDate today = LocalDate.now();
+        
+        // Check if today is an academic day
+        if (!academicCalendarService.isAcademicDay(today)) {
+            throw new RuntimeException("Today is a holiday, attendance cannot be marked.");
+        }
         
         for (String studentId : studentIds) {
             Student student = studentRepo.findById(studentId)

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.AnnouncementDTO;
 import org.school.bps.dto.CustomResponse;
+import org.school.bps.service.AcademicCalendarService;
 import org.school.bps.service.AnnouncementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.List;
 public class AnnouncementController {
     
     private final AnnouncementService announcementService;
+    
+    private final AcademicCalendarService AcademicCalendarService;
+    private final AcademicCalendarService academicCalendarService;
     
     @GetMapping(Endpoints.ANNOUNCEMENT_GREETING)
     public String announcementGreeting() {
@@ -74,6 +78,11 @@ public class AnnouncementController {
                 "Announcement deleted successfully!",
                 "DELETED!"
         );
+    }
+    
+    @GetMapping("/fetchacademic")
+    public int fetchAcademicDays(){
+        return academicCalendarService.getTotalAcademicDays();
     }
     
 }

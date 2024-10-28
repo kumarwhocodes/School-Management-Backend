@@ -16,6 +16,7 @@ public class InfoService {
     
     private final InfoRepository infoRepo;
     private final StudentRepository studentRepo;
+    private final AcademicCalendarService academicCalendarService;
     
     @PostConstruct
     public void initializeSingleton() {
@@ -45,25 +46,21 @@ public class InfoService {
         return info.toInfoDTO();
     }
     
-    public void modifyRunningDays(int runningDays) {
-        Info info = infoRepo.findAll().stream().findFirst()
-                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
-        
-        info.setTotalRunningDays(runningDays);
-        infoRepo.save(info);  // Save the updated running days
-    }
-    
-    @Scheduled(cron = "0 * * * * ?")
-    public void updateRunningDays() {
-        Info info = infoRepo.findAll().stream().findFirst()
-                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
-        int latestTotalRunningDays = info.getTotalRunningDays();
-        
-        studentRepo.findAll().forEach(student -> {
-            student.setTotalDays(latestTotalRunningDays);
-            studentRepo.save(student);
-        });
-        
-        System.out.println("Updated total running days for all students.");
-    }
+//    @Scheduled(cron = "0 * * * * ?")
+//    public void updateRunningDays() {
+//        Info info = infoRepo.findAll().stream().findFirst()
+//                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
+//
+//        int latestTotalAcademicDays = academicCalendarService.getTotalAcademicDays();
+//
+//        info.setTotalRunningDays(latestTotalAcademicDays);
+//        infoRepo.save(info);
+//
+//        studentRepo.findAll().forEach(student -> {
+//            student.setTotalDays(latestTotalAcademicDays);
+//            studentRepo.save(student);
+//        });
+//
+//        System.out.println("Updated total running days for all students based on academic calendar.");
+//    }
 }

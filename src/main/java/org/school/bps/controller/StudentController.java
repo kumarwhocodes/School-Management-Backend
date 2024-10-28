@@ -92,7 +92,7 @@ public class StudentController {
         );
     }
     
-    @PostMapping(Endpoints.MARK_ATTENDANCE)
+    @PostMapping(Endpoints.MARK_STUDENT_ATTENDANCE)
     public CustomResponse<String> markAttendance(
             @RequestBody List<String> studentIds
     ) {
@@ -104,16 +104,16 @@ public class StudentController {
         );
     }
     
-    @PutMapping(Endpoints.MODIFY_RUNNING_DAYS)
-    public CustomResponse<String> modifyRunningDays(
-            @RequestBody int runningDays
-    ){
-        infoService.modifyRunningDays(runningDays);
-        return new CustomResponse<>(
-                HttpStatus.OK,
-                "Running days updated successfully.",
-                "UPDATED!"
-        );
-    }
+//    @PutMapping(Endpoints.MODIFY_RUNNING_DAYS)
+//    public CustomResponse<String> modifyRunningDays(
+//            @RequestBody int runningDays
+//    ){
+//        infoService.modifyRunningDays(runningDays);
+//        return new CustomResponse<>(
+//                HttpStatus.OK,
+//                "Running days updated successfully.",
+//                "UPDATED!"
+//        );
+//    }
     
 }

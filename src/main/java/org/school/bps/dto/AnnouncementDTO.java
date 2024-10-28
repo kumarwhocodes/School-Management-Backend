@@ -21,6 +21,7 @@ public class AnnouncementDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDate expirationDate;
+    private boolean isHoliday;
     
     public Announcement toAnnouncement() {
         return Announcement
@@ -33,6 +34,7 @@ public class AnnouncementDTO {
                 .startTime(startTime)
                 .endTime(endTime)
                 .expirationDate(expirationDate)
+                .isHoliday(isHoliday)
                 .build();
     }
 }

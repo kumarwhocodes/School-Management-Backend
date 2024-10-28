@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
     List<Announcement> findByExpirationDateBefore(LocalDate date);
+    List<Announcement> findAllByIsHolidayTrue();
 }
