@@ -20,7 +20,7 @@ public class Announcement {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int aId;
     private String title;
     private String message;
     private LocalDate startDate;
@@ -34,7 +34,7 @@ public class Announcement {
     public AnnouncementDTO toAnnouncementDTO() {
         return AnnouncementDTO
                 .builder()
-                .id(id)
+                .aId(aId)
                 .title(title)
                 .message(message)
                 .startDate(startDate)

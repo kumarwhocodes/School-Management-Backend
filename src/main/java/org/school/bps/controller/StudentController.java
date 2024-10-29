@@ -20,7 +20,6 @@ public class StudentController {
     
     private final StudentService studentService;
     private final StudentAttendanceService studentAttendanceService;
-    private final InfoService infoService;
     
     @GetMapping(Endpoints.STUDENT_GREETING)
     public String greetingPage() {
@@ -103,17 +102,5 @@ public class StudentController {
                 "UPDATED!"
         );
     }
-    
-//    @PutMapping(Endpoints.MODIFY_RUNNING_DAYS)
-//    public CustomResponse<String> modifyRunningDays(
-//            @RequestBody int runningDays
-//    ){
-//        infoService.modifyRunningDays(runningDays);
-//        return new CustomResponse<>(
-//                HttpStatus.OK,
-//                "Running days updated successfully.",
-//                "UPDATED!"
-//        );
-//    }
     
 }

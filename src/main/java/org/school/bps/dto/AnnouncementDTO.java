@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnnouncementDTO {
-    private int id;
+    private int aId;
     private String title;
     private String message;
     private LocalDate startDate;
@@ -26,7 +26,7 @@ public class AnnouncementDTO {
     public Announcement toAnnouncement() {
         return Announcement
                 .builder()
-                .id(id)
+                .aId(aId)
                 .title(title)
                 .message(message)
                 .startDate(startDate)

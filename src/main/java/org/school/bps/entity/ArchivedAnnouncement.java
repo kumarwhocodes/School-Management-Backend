@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Table(name = "archived_announcements")
 public class ArchivedAnnouncement {
     @Id
-    private int id;
+    private int aId;
     private String title;
     private String message;
     private LocalDate expirationDate;

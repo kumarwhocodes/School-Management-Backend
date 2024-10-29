@@ -19,8 +19,8 @@ public class AnnouncementService {
     private final AcademicCalendarService academicCalendarService;
     
     public AnnouncementDTO createAnnouncement(AnnouncementDTO announcement) {
-        if (announcementRepo.existsById(announcement.getId())) {
-            throw new AnnouncementAlreadyExistsException(announcement.getId());
+        if (announcementRepo.existsById(announcement.getAId())) {
+            throw new AnnouncementAlreadyExistsException(announcement.getAId());
         } else {
             Announcement savedAnnouncement = announcementRepo.save(announcement.toAnnouncement());
             
@@ -42,8 +42,8 @@ public class AnnouncementService {
     }
     
     public AnnouncementDTO updateAnnouncement(AnnouncementDTO announcement) {
-        Announcement existing = announcementRepo.findById(announcement.getId())
-                .orElseThrow(() -> new AnnouncementNotFoundException(announcement.getId()));
+        Announcement existing = announcementRepo.findById(announcement.getAId())
+                .orElseThrow(() -> new AnnouncementNotFoundException(announcement.getAId()));
         
         boolean wasHoliday = existing.isHoliday();
         

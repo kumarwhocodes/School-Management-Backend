@@ -35,6 +35,6 @@ public class Endpoints {
     //About School
     public final static String INFO = "/info";
     public final static String INFO_GREETING = "/";
-    public final static String FETCH_INFO = "/fetch";
+    public final static String FETCH_INFO = "/fetch-all";
     public final static String UPDATE_INFO = "/update";
 }

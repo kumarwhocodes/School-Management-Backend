@@ -23,12 +23,12 @@ public class AnnouncementCleanupService {
         List<AnnouncementDTO> expiredAnnouncements = announcementService.findExpiredAnnouncements(LocalDate.now());
         expiredAnnouncements.forEach(announcement -> {
             ArchivedAnnouncement archivedAnnouncement = new ArchivedAnnouncement();
-            archivedAnnouncement.setId(announcement.getId());
+            archivedAnnouncement.setAId(announcement.getAId());
             archivedAnnouncement.setTitle(announcement.getTitle());
             archivedAnnouncement.setMessage(announcement.getMessage());
             archivedAnnouncement.setExpirationDate(announcement.getExpirationDate());
             archivedAnnouncementRepository.save(archivedAnnouncement);
-            announcementService.archiveAnnouncementById(announcement.getId());
+            announcementService.archiveAnnouncementById(announcement.getAId());
         });
     }
 }

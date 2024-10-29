@@ -57,8 +57,8 @@ public class AcademicCalendarService {
                 .collect(Collectors.toCollection(ConcurrentSkipListSet::new));
     }
     
+    //exclude sundays
     private boolean isDefaultAcademicDay(LocalDate date) {
-        // Exclude weekends
         return !(date.getDayOfWeek() == DayOfWeek.SUNDAY);
     }
     
@@ -71,17 +71,14 @@ public class AcademicCalendarService {
     }
     
     public void unmarkHoliday(Announcement announcement) {
-        // Assume the announcement has a start date that marks the holiday
-        LocalDate holidayDate = announcement.getStartDate(); // You can adjust this if you need a specific date.
-        
-        // Add logic to mark this date as an academic day
+        LocalDate holidayDate = announcement.getStartDate();
+ 
         if (!academicDays.contains(holidayDate)) {
             academicDays.add(holidayDate);
-            System.out.println("Marking date as academic day: " + holidayDate); // Debug log
+            System.out.println("Marking date as academic day: " + holidayDate);
         }
         
-        // You might want to update the database or other structures to reflect this change
-        updateTotalAcademicDaysInInfo(); // Update total days after modifying the holiday
+        updateTotalAcademicDaysInInfo();
     }
     
     

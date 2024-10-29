@@ -21,6 +21,8 @@ public class TeacherDTO {
     private int totalDays;
     private int salary;
     private BigInteger phoneNumber;
+    private int remainingCasualLeaves = 12;
+    private int absentees;
     
     public Teacher toTeacher() {
         return Teacher
@@ -34,6 +36,8 @@ public class TeacherDTO {
                 .totalDays(totalDays)
                 .salary(salary)
                 .phoneNumber(phoneNumber)
+                .remainingCasualLeaves(remainingCasualLeaves)
+                .absentees(absentees)
                 .build();
     }
 }

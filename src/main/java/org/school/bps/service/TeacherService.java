@@ -44,6 +44,8 @@ public class TeacherService {
             existingTeacher.setEmail(teacher.getEmail());
             existingTeacher.setPhoneNumber(teacher.getPhoneNumber());
             existingTeacher.setTName(teacher.getTName());
+            existingTeacher.setSubject(teacher.getSubject());
+            existingTeacher.setSalary(teacher.getSalary());
             // Add other fields as necessary
             
             return teacherRepo.save(existingTeacher).toTeacherDTO();
