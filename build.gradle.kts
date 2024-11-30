@@ -24,16 +24,18 @@ repositories {
 }
 
 dependencies {
+
     //Spring Data JPA
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
     // Security
     // implementation("org.springframework.boot:spring-boot-starter-security")
+
     //Spring Boot Starter Web
     implementation("org.springframework.boot:spring-boot-starter-web")
+
     //Devtools for automatic reloading
 //    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    //Driver for MySQL
-    runtimeOnly("com.mysql:mysql-connector-j")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     //	testImplementation("org.springframework.security:spring-security-test")
@@ -45,6 +47,9 @@ dependencies {
 
     // Baeldung Guava
     implementation("com.google.guava:guava:33.3.1-jre")
+
+    //Postgres
+    implementation ("org.postgresql:postgresql:42.6.0")
 }
 
 tasks.withType<Test> {

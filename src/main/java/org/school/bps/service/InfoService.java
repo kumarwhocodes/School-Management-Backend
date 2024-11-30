@@ -7,7 +7,6 @@ import org.school.bps.entity.Info;
 import org.school.bps.exception.InfoNotFoundException;
 import org.school.bps.repository.InfoRepository;
 import org.school.bps.repository.StudentRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,11 +14,10 @@ import org.springframework.stereotype.Service;
 public class InfoService {
     
     private final InfoRepository infoRepo;
-    private final StudentRepository studentRepo;
-    private final AcademicCalendarService academicCalendarService;
     
     @PostConstruct
     public void initializeSingleton() {
+        System.out.println("PostConstruct: Initializing singleton Info entity.");
         if (infoRepo.count() == 0) {
             infoRepo.save(new Info());
         }
@@ -45,22 +43,4 @@ public class InfoService {
         infoRepo.save(info);  // Save the updated info
         return info.toInfoDTO();
     }
-    
-//    @Scheduled(cron = "0 * * * * ?")
-//    public void updateRunningDays() {
-//        Info info = infoRepo.findAll().stream().findFirst()
-//                .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
-//
-//        int latestTotalAcademicDays = academicCalendarService.getTotalAcademicDays();
-//
-//        info.setTotalRunningDays(latestTotalAcademicDays);
-//        infoRepo.save(info);
-//
-//        studentRepo.findAll().forEach(student -> {
-//            student.setTotalDays(latestTotalAcademicDays);
-//            studentRepo.save(student);
-//        });
-//
-//        System.out.println("Updated total running days for all students based on academic calendar.");
-//    }
 }

@@ -20,7 +20,7 @@ public class Announcement {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int aId;
+    private int id;
     private String title;
     private String message;
     private LocalDate startDate;
@@ -29,12 +29,13 @@ public class Announcement {
     private LocalTime endTime;
     private LocalDate expirationDate;
 //    @Column(name = "isHoliday", nullable = false)
+    @Column(name = "is_holiday")
     private boolean isHoliday;
     
     public AnnouncementDTO toAnnouncementDTO() {
         return AnnouncementDTO
                 .builder()
-                .aId(aId)
+                .aId(id)
                 .title(title)
                 .message(message)
                 .startDate(startDate)

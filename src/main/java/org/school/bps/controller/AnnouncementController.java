@@ -17,8 +17,6 @@ import java.util.List;
 public class AnnouncementController {
     
     private final AnnouncementService announcementService;
-    
-    private final AcademicCalendarService AcademicCalendarService;
     private final AcademicCalendarService academicCalendarService;
     
     @GetMapping(Endpoints.ANNOUNCEMENT_GREETING)

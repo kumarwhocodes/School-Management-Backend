@@ -26,7 +26,7 @@ public class AnnouncementDTO {
     public Announcement toAnnouncement() {
         return Announcement
                 .builder()
-                .aId(aId)
+                .id(aId)
                 .title(title)
                 .message(message)
                 .startDate(startDate)
