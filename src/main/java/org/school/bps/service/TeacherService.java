@@ -17,14 +17,33 @@ public class TeacherService {
     private final TeacherRepository teacherRepo;
     
     public TeacherDTO createTeacher(TeacherDTO teacher) {
-        //TODO: same username ke saath doosra user create hoja rha hai
-        if (teacherRepo.existsById(teacher.getTId()))
-            throw new TeacherAlreadyExistsException(teacher.getTId());
-        else {
-            return teacherRepo
-                    .save(teacher.toTeacher())
-                    .toTeacherDTO();
+        // Validate that the teacher ID is not null or empty
+        if (teacher.getId() == null || teacher.getId().isEmpty()) {
+            throw new TeacherNotFoundException("Teacher ID cannot be null or empty.");
         }
+        
+        // Check if a teacher with the given ID already exists
+        if (teacherRepo.existsById(teacher.getId())) {
+            throw new TeacherAlreadyExistsException(
+                    "A teacher with the ID " + teacher.getId() + " already exists.");
+        }
+//
+//        // Check if a teacher with the same email already exists
+//        if (teacherRepo.existsByEmail(teacher.getEmail())) {
+//            throw new TeacherAlreadyExistsException(
+//                    "A teacher with the email " + teacher.getEmail() + " already exists.");
+//        }
+//
+//        // Check if a teacher with the same phone number already exists
+//        if (teacherRepo.existsByPhoneNumber(teacher.getPhoneNumber())) {
+//            throw new TeacherAlreadyExistsException(
+//                    "A teacher with the phone number " + teacher.getPhoneNumber() + " already exists.");
+//        }
+        
+        // Save the new teacher and convert to DTO
+        return teacherRepo
+                .save(teacher.toTeacher())
+                .toTeacherDTO();
     }
     
     public List<TeacherDTO> fetchAllTeachers() {
@@ -35,11 +54,11 @@ public class TeacherService {
     }
     
     public TeacherDTO updateTeacher(TeacherDTO teacher) {
-        if (!teacherRepo.existsById(teacher.getTId())) {
-            throw new TeacherNotFoundException(teacher.getTId());
+        if (!teacherRepo.existsById(teacher.getId())) {
+            throw new TeacherNotFoundException(teacher.getId());
         } else {
-            Teacher existingTeacher = teacherRepo.findById(teacher.getTId())
-                    .orElseThrow(() -> new TeacherNotFoundException(teacher.getTId()));
+            Teacher existingTeacher = teacherRepo.findById(teacher.getId())
+                    .orElseThrow(() -> new TeacherNotFoundException(teacher.getId()));
             
             existingTeacher.setEmail(teacher.getEmail());
             existingTeacher.setPhoneNumber(teacher.getPhoneNumber());
