@@ -22,6 +22,7 @@ public class Endpoints {
     public final static String UPDATE_TEACHER = "/update";
     public static final String MARK_TEACHER_ATTENDANCE = "/attendance";
     public final static String DELETE_TEACHER_BY_ID = "/{tId}";
+    public final static String FIND_MONTHLY_ATTENDANCE = "/monthly";
     
     //Announcement
     public final static String ANNOUNCEMENT = "/announcement";

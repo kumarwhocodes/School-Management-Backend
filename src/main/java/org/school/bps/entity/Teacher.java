@@ -17,8 +17,8 @@ import java.math.BigInteger;
 @Table(name = "teachers")
 public class Teacher {
     @Id
-    @Column(name = "tId", nullable = false)
-    private String tId;
+    @Column(name = "t_id", nullable = false)
+    private String id;
     private String tName;
     private String password;
     private String email;
@@ -36,7 +36,7 @@ public class Teacher {
     public TeacherDTO toTeacherDTO() {
         return TeacherDTO
                 .builder()
-                .tId(tId)
+                .id(id)
                 .tName(tName)
                 .password(password)
                 .email(email)

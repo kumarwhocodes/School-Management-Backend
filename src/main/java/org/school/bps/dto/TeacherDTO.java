@@ -12,7 +12,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeacherDTO {
-    private String tId;
+    private String id;
     private String tName;
     private String password;
     private String email;
@@ -27,7 +27,7 @@ public class TeacherDTO {
     public Teacher toTeacher() {
         return Teacher
                 .builder()
-                .tId(tId)
+                .id(id)
                 .tName(tName)
                 .password(password)
                 .email(email)
