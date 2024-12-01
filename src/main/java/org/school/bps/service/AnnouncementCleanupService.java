@@ -16,9 +16,10 @@ public class AnnouncementCleanupService {
     private final AnnouncementService announcementService;
     private final ArchivedAnnouncementRepository archivedAnnouncementRepository;
     
-    //(cron = "0 0 0 * * ?") FOR daily at midnight
+    //(cron = "0 0 0 * * ?") FOR every midnight
     //(cron = "0 * * * * ?") FOR every minute
-    @Scheduled(cron = "0 * * * * ?")
+    //(cron = "0 0 * * * ?") FOR every hour
+    @Scheduled(cron = "0 0 * * * ?")
     public void archiveAndDeleteExpiredAnnouncements() {
         List<AnnouncementDTO> expiredAnnouncements = announcementService.findExpiredAnnouncements(LocalDate.now());
         expiredAnnouncements.forEach(announcement -> {
