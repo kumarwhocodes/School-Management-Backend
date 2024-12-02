@@ -3,6 +3,7 @@ package org.school.bps.service;
 import lombok.RequiredArgsConstructor;
 import org.school.bps.dto.AnnouncementDTO;
 import org.school.bps.entity.ArchivedAnnouncement;
+import org.school.bps.exception.AnnouncementNotFoundException;
 import org.school.bps.repository.ArchivedAnnouncementRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,26 @@ public class AnnouncementCleanupService {
     //(cron = "0 0 * * * ?") FOR every hour
     @Scheduled(cron = "0 0 * * * ?")
     public void archiveAndDeleteExpiredAnnouncements() {
-        List<AnnouncementDTO> expiredAnnouncements = announcementService.findExpiredAnnouncements(LocalDate.now());
-        expiredAnnouncements.forEach(announcement -> {
-            ArchivedAnnouncement archivedAnnouncement = new ArchivedAnnouncement();
-            archivedAnnouncement.setAId(announcement.getAId());
-            archivedAnnouncement.setTitle(announcement.getTitle());
-            archivedAnnouncement.setMessage(announcement.getMessage());
-            archivedAnnouncement.setExpirationDate(announcement.getExpirationDate());
-            archivedAnnouncementRepository.save(archivedAnnouncement);
-            announcementService.archiveAnnouncementById(announcement.getAId());
-        });
+        try {
+            List<AnnouncementDTO> expiredAnnouncements = announcementService.findExpiredAnnouncements(LocalDate.now());
+            if (expiredAnnouncements.isEmpty()) {
+                throw new AnnouncementNotFoundException("No expired announcements found for cleanup.");
+            }
+            
+            expiredAnnouncements.forEach(announcement -> {
+                ArchivedAnnouncement archivedAnnouncement = new ArchivedAnnouncement();
+                archivedAnnouncement.setAId(announcement.getAId());
+                archivedAnnouncement.setTitle(announcement.getTitle());
+                archivedAnnouncement.setMessage(announcement.getMessage());
+                archivedAnnouncement.setExpirationDate(announcement.getExpirationDate());
+                archivedAnnouncementRepository.save(archivedAnnouncement);
+                announcementService.archiveAnnouncementById(announcement.getAId());
+            });
+            
+        } catch (AnnouncementNotFoundException ex) {
+            throw new AnnouncementNotFoundException("Failed to archive announcements: " + ex.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException("An unexpected error occurred while archiving announcements: " + ex.getMessage(), ex);
+        }
     }
 }

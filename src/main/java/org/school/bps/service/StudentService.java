@@ -22,19 +22,14 @@ public class StudentService {
             throw new IllegalArgumentException("Student ID and name cannot be null");
         }
         
-        // Convert DTO to Entity
         Student student = studentDTO.toStudent();
-        
-        // Optionally set default values (e.g., totalDays) if not provided
-        student.setTotalDays(0); // Ensure default value if not set
+        student.setTotalDays(0);
         
         try {
-            // Save student entity
             Student savedStudent = studentRepo.save(student);
             return savedStudent.toStudentDTO();
         } catch (DataIntegrityViolationException e) {
-            // Handle exceptions related to database integrity (e.g., unique constraint violations)
-            throw new RuntimeException("Error saving student: " + e.getMessage());
+            throw new RuntimeException("Error saving student: " + e.getMessage(), e);
         }
     }
     
@@ -45,20 +40,18 @@ public class StudentService {
                 .toList();
     }
     
-    public StudentDTO updateStudent(StudentDTO student) {
-        if (!studentRepo.existsById(student.getStuId())) {
-            throw new StudentNotFoundException(student.getStuId());
-        } else {
-            Student existingStudent = studentRepo.findById(student.getStuId())
-                    .orElseThrow(() -> new StudentNotFoundException(student.getStuId()));
-            
-            existingStudent.setEmail(student.getEmail());
-            existingStudent.setPhoneNumber(student.getPhoneNumber());
-            existingStudent.setStuName(student.getStuName());
-            // Add other fields as necessary
-            
-            return studentRepo.save(existingStudent).toStudentDTO();
-        }
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
+        // Check if the student exists before updating
+        Student existingStudent = studentRepo.findById(studentDTO.getStuId())
+                .orElseThrow(() -> new StudentNotFoundException(studentDTO.getStuId()));
+        
+        // Update student fields with the provided DTO
+        existingStudent.setEmail(studentDTO.getEmail());
+        existingStudent.setPhoneNumber(studentDTO.getPhoneNumber());
+        existingStudent.setStuName(studentDTO.getStuName());
+        
+        Student updatedStudent = studentRepo.save(existingStudent);
+        return updatedStudent.toStudentDTO();
     }
     
     public StudentDTO fetchStudentByStuId(String stuId) {
@@ -69,9 +62,9 @@ public class StudentService {
     }
     
     public void deleteStudentByStuId(String stuId) {
-        if (!studentRepo.existsById(stuId))
+        if (!studentRepo.existsById(stuId)) {
             throw new StudentNotFoundException(stuId);
-        
+        }
         studentRepo.deleteById(stuId);
     }
     
