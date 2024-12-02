@@ -6,11 +6,13 @@ import org.school.bps.exception.InfoNotFoundException;
 import org.school.bps.repository.AnnouncementRepository;
 import org.school.bps.repository.InfoRepository;
 import org.school.bps.repository.StudentRepository;
+import org.school.bps.repository.TeacherRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
@@ -20,11 +22,13 @@ public class AcademicCalendarService {
     
     private final AnnouncementRepository announcementRepo;
     private final StudentRepository studentRepo;
+    private final TeacherRepository teacherRepo;
     private final InfoRepository infoRepo;
     private Set<LocalDate> academicDays;
     
-    public AcademicCalendarService(AnnouncementRepository announcementRepo, InfoRepository infoRepo, StudentRepository studentRepo) {
+    public AcademicCalendarService(AnnouncementRepository announcementRepo, InfoRepository infoRepo, StudentRepository studentRepo, TeacherRepository teacherRepo) {
         this.studentRepo = studentRepo;
+        this.teacherRepo = teacherRepo;
         this.announcementRepo = announcementRepo;
         this.infoRepo = infoRepo;
         generateAcademicDays();
@@ -72,7 +76,7 @@ public class AcademicCalendarService {
     
     public void unmarkHoliday(Announcement announcement) {
         LocalDate holidayDate = announcement.getStartDate();
- 
+        
         if (!academicDays.contains(holidayDate)) {
             academicDays.add(holidayDate);
             System.out.println("Marking date as academic day: " + holidayDate);
@@ -91,7 +95,8 @@ public class AcademicCalendarService {
         infoRepo.save(info);
     }
     
-    @Scheduled(cron = "0 * * * * ?")
+    
+    @Scheduled(cron = "0 0 * * * ?")
     public void updateTotalDaysForAllStudents() {
         updateTotalAcademicDaysInInfo();
         int totalDays = getTotalAcademicDays();
@@ -101,6 +106,17 @@ public class AcademicCalendarService {
             studentRepo.save(student);
         });
         
-        System.out.println("Updated total academic days for all students based on the academic calendar.");
+        System.out.println("Updated total academic days for ALL STUDENTS based on the academic calendar.");
+    }
+    
+    @Scheduled(cron = "0 0 * * * ?")
+    public void updateTotalDaysForAllTeachers() {
+        int totalDays = YearMonth.now().lengthOfMonth();
+        
+        teacherRepo.findAll().forEach(teacher -> {
+            teacher.setTotalDays(totalDays);
+            teacherRepo.save(teacher);
+        });
+        System.out.println("Updated total academic days" + totalDays + "for ALL TEACHERS based on the MONTH.");
     }
 }
