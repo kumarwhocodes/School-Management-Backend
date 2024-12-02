@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface InfoRepository extends JpaRepository<Info, Integer> {
-    Optional<Info> findTopByOrderByIdDesc();
+    Optional<Info> findFirstByOrderByIdAsc();
 }

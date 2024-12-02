@@ -20,7 +20,7 @@ public class AnnouncementService {
     
     public AnnouncementDTO createAnnouncement(AnnouncementDTO announcement) {
         if (announcementRepo.existsById(announcement.getAId())) {
-            throw new AnnouncementAlreadyExistsException(announcement.getAId());
+            throw new AnnouncementAlreadyExistsException("Announcement with ID " + announcement.getAId() + " already exists.");
         } else {
             Announcement savedAnnouncement = announcementRepo.save(announcement.toAnnouncement());
             
@@ -43,7 +43,7 @@ public class AnnouncementService {
     
     public AnnouncementDTO updateAnnouncement(AnnouncementDTO announcement) {
         Announcement existing = announcementRepo.findById(announcement.getAId())
-                .orElseThrow(() -> new AnnouncementNotFoundException(announcement.getAId()));
+                .orElseThrow(() -> new AnnouncementNotFoundException("Announcement with ID " + announcement.getAId() + " not found"));
         
         boolean wasHoliday = existing.isHoliday();
         
@@ -65,23 +65,21 @@ public class AnnouncementService {
         return updatedAnnouncement.toAnnouncementDTO();
     }
     
-    
     public AnnouncementDTO fetchAnnouncementById(int id) {
         return announcementRepo
                 .findById(id)
                 .map(Announcement::toAnnouncementDTO)
-                .orElseThrow(() -> new AnnouncementNotFoundException(id));
+                .orElseThrow(() -> new AnnouncementNotFoundException("Announcement with ID " + id + " not found"));
     }
-    
     
     public void deleteAnnouncementById(int id) {
         if (!announcementRepo.existsById(id)) {
-            throw new AnnouncementNotFoundException(id);
+            throw new AnnouncementNotFoundException("Announcement with ID " + id + " not found");
         }
         
         // Fetch the announcement to check if it's a holiday
         Announcement announcementToDelete = announcementRepo.findById(id)
-                .orElseThrow(() -> new AnnouncementNotFoundException(id));
+                .orElseThrow(() -> new AnnouncementNotFoundException("Announcement with ID " + id + " not found"));
         
         boolean isHoliday = announcementToDelete.isHoliday();
         
@@ -98,12 +96,11 @@ public class AnnouncementService {
     
     public void archiveAnnouncementById(int id) {
         if (!announcementRepo.existsById(id)) {
-            throw new AnnouncementNotFoundException(id);
+            throw new AnnouncementNotFoundException("Announcement with ID " + id + " not found");
         }
         
         // Simply delete the announcement record, without changing its holiday status
         announcementRepo.deleteById(id);
-        // You may implement a separate archive logic if needed, such as moving the record to another table.
     }
     
     public List<AnnouncementDTO> findExpiredAnnouncements(LocalDate currentDate) {

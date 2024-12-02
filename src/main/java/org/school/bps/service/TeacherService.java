@@ -22,25 +22,11 @@ public class TeacherService {
             throw new TeacherNotFoundException("Teacher ID cannot be null or empty.");
         }
         
-        // Check if a teacher with the given ID already exists
         if (teacherRepo.existsById(teacher.getId())) {
             throw new TeacherAlreadyExistsException(
                     "A teacher with the ID " + teacher.getId() + " already exists.");
         }
-//
-//        // Check if a teacher with the same email already exists
-//        if (teacherRepo.existsByEmail(teacher.getEmail())) {
-//            throw new TeacherAlreadyExistsException(
-//                    "A teacher with the email " + teacher.getEmail() + " already exists.");
-//        }
-//
-//        // Check if a teacher with the same phone number already exists
-//        if (teacherRepo.existsByPhoneNumber(teacher.getPhoneNumber())) {
-//            throw new TeacherAlreadyExistsException(
-//                    "A teacher with the phone number " + teacher.getPhoneNumber() + " already exists.");
-//        }
-        
-        // Save the new teacher and convert to DTO
+
         return teacherRepo
                 .save(teacher.toTeacher())
                 .toTeacherDTO();
@@ -84,6 +70,4 @@ public class TeacherService {
         
         teacherRepo.deleteById(tId);
     }
-    
-    
 }

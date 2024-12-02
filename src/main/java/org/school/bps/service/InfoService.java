@@ -6,7 +6,6 @@ import org.school.bps.dto.InfoDTO;
 import org.school.bps.entity.Info;
 import org.school.bps.exception.InfoNotFoundException;
 import org.school.bps.repository.InfoRepository;
-import org.school.bps.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,13 +23,15 @@ public class InfoService {
     }
     
     public InfoDTO fetchInfo() {
-        Info info = infoRepo.findAll().stream().findFirst()
+        // Fetch the single Info entity. Assumes there is only one record
+        Info info = infoRepo.findFirstByOrderByIdAsc()
                 .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
         return info.toInfoDTO();
     }
     
     public InfoDTO updateInfo(InfoDTO infoDTO) {
-        Info info = infoRepo.findAll().stream().findFirst()
+        // Fetch the single Info entity. Assumes there is only one record
+        Info info = infoRepo.findFirstByOrderByIdAsc()
                 .orElseThrow(() -> new InfoNotFoundException("Info record not found"));
         
         info.setSchoolName(infoDTO.getSchoolName());
@@ -40,7 +41,7 @@ public class InfoService {
         info.setPhotoUrls(infoDTO.getPhotoUrls());
         info.setTotalRunningDays(infoDTO.getTotalRunningDays());
         
-        infoRepo.save(info);  // Save the updated info
+        infoRepo.save(info);
         return info.toInfoDTO();
     }
 }
