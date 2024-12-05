@@ -33,6 +33,14 @@ public class Endpoints {
     public final static String DELETE_ANNOUNCEMENT_BY_ID = "/{id}";
     public final static String FETCH_ANNOUNCEMENT_BY_ID = "/{id}";
     
+    //Leave
+    public final static String LEAVE = "/leave";
+    public final static String APPLY_LEAVE = "/apply";
+    public final static String APPROVE_LEAVE = "/{leaveId}/approve";
+    public final static String REJECT_LEAVE = "/{leaveId}/reject";
+    public final static String FETCH_LEAVE_BY_TEACHER_ID = "/teacher/{teacherId}";
+    public final static String FETCH_ALL_LEAVES = "/fetch-all";
+    
     //About School
     public final static String INFO = "/info";
     public final static String INFO_GREETING = "/";

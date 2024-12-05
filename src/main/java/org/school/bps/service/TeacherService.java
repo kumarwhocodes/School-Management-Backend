@@ -16,20 +16,24 @@ public class TeacherService {
     
     private final TeacherRepository teacherRepo;
     
-    public TeacherDTO createTeacher(TeacherDTO teacher) {
+    public TeacherDTO createTeacher(TeacherDTO teacherDTO) {
         // Validate that the teacher ID is not null or empty
-        if (teacher.getId() == null || teacher.getId().isEmpty()) {
+        if (teacherDTO.getId() == null || teacherDTO.getId().isEmpty()) {
             throw new TeacherNotFoundException("Teacher ID cannot be null or empty.");
         }
         
-        if (teacherRepo.existsById(teacher.getId())) {
+        if (teacherRepo.existsById(teacherDTO.getId())) {
             throw new TeacherAlreadyExistsException(
-                    "A teacher with the ID " + teacher.getId() + " already exists.");
+                    "A teacher with the ID " + teacherDTO.getId() + " already exists.");
         }
-
-        return teacherRepo
-                .save(teacher.toTeacher())
-                .toTeacherDTO();
+        
+        Teacher teacher = teacherDTO.toTeacher();
+        teacher.setRemainingCasualLeaves(12);
+        teacher.setUsedCasualLeaves(0);
+        
+        Teacher savedTeacher = teacherRepo.save(teacher);
+        
+        return savedTeacher.toTeacherDTO();
     }
     
     public List<TeacherDTO> fetchAllTeachers() {

@@ -16,9 +16,17 @@ public class InfoService {
     
     @PostConstruct
     public void initializeSingleton() {
-        System.out.println("PostConstruct: Initializing singleton Info entity.");
-        if (infoRepo.count() == 0) {
-            infoRepo.save(new Info());
+        try {
+            if (infoRepo.count() == 0) {
+                Info i = new Info();
+                i.setId(1);
+                i.setSchoolName("Default School Name");
+                i.setTotalRunningDays(365);
+                infoRepo.save(i);
+                System.out.println("Info entity initialized successfully.");
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to initialize Info entity: " + e.getMessage());
         }
     }
     

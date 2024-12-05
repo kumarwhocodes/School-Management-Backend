@@ -27,7 +27,8 @@ public class Teacher {
     private int totalDays;
     private int salary;
     private BigInteger phoneNumber;
-    private int remainingCasualLeaves = 12;
+    private int remainingCasualLeaves;
+    private int usedCasualLeaves;
     private int absentees;
     
     @Enumerated(EnumType.STRING)
@@ -46,6 +47,7 @@ public class Teacher {
                 .salary(salary)
                 .phoneNumber(phoneNumber)
                 .remainingCasualLeaves(remainingCasualLeaves)
+                .usedCasualLeaves(usedCasualLeaves)
                 .absentees(absentees)
                 .build();
     }

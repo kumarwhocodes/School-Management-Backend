@@ -3,9 +3,8 @@ package org.school.bps.service;
 import lombok.RequiredArgsConstructor;
 import org.school.bps.entity.Teacher;
 import org.school.bps.entity.TeacherAttendance;
-import org.school.bps.exception.TeacherNotFoundException;
+import org.school.bps.repository.LeaveRepository;
 import org.school.bps.repository.TeacherAttendanceRepository;
-import org.school.bps.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,8 +16,7 @@ import java.util.List;
 public class TeacherAttendanceService {
     
     private final TeacherAttendanceRepository attendanceRepository;
-    private final AcademicCalendarService academicCalendarService;
-    private final TeacherRepository teacherRepository;
+    private final LeaveRepository leaveRepository;
     
     /**
      * Marks attendance for a list of teachers for today.
@@ -29,29 +27,24 @@ public class TeacherAttendanceService {
     public void markAttendanceForTeachers(List<String> teacherIds) {
         LocalDate today = LocalDate.now();
         
-        // Check if today is an academic day
-        if (!academicCalendarService.isAcademicDay(today)) {
-            throw new IllegalStateException("Attendance cannot be updated for today as it's not an academic day.");
-        }
-        
         for (String teacherId : teacherIds) {
-            // Check if attendance for today is already recorded
+            boolean isOnApprovedLeave = leaveRepository.existsByTeacherIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                    teacherId, today, today);
+            
             if (!attendanceRepository.existsByTeacherIdAndDate(teacherId, today)) {
-                Teacher teacher = teacherRepository.findById(teacherId)
-                        .orElseThrow(() -> new TeacherNotFoundException("Teacher with ID: " + teacherId + " not found."));
+                boolean isPresent = !isOnApprovedLeave && teacherIds.contains(teacherId);
                 
                 TeacherAttendance attendance = TeacherAttendance.builder()
-                        .teacher(teacher)
+                        .teacher(Teacher.builder().id(teacherId).build())
                         .date(today)
-                        .isPresent(true)
+                        .isPresent(isPresent)
                         .build();
-                attendanceRepository.save(attendance);
                 
-                teacher.setPresentDays(teacher.getPresentDays() + 1);
-                teacherRepository.save(teacher);
+                attendanceRepository.save(attendance);
             }
         }
     }
+    
     
     /**
      * Calculates the monthly attendance for a teacher.

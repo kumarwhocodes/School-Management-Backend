@@ -4,17 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.school.bps.constants.Endpoints;
 import org.school.bps.dto.CustomResponse;
 import org.school.bps.dto.TeacherDTO;
-import org.school.bps.entity.Teacher;
-import org.school.bps.entity.TeacherAttendance;
-import org.school.bps.exception.TeacherNotFoundException;
 import org.school.bps.service.TeacherAttendanceService;
 import org.school.bps.service.TeacherService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -39,7 +34,7 @@ public class TeacherController {
                 teacherService.fetchAllTeachers()
         );
     }
- 
+    
     @PostMapping(Endpoints.CREATE_TEACHER)
     public CustomResponse<TeacherDTO> createTeacher(
             @RequestBody TeacherDTO teacher
